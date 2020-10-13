@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/styles.css" rel="stylesheet" />
+    <title>Guessing number by Georg Schweinschwaller</title>
+</head>
+
+<body>
+    <header>
+        <h1><ins>Guessing </ins></h1>
+        <h1><ins>number</ins></h1>
+        </details>
+    </header>
+
+    <main>
+        <article class="how_much">
+            <section id="content">
+                <h1>Can you guessing the rigth number?</h1>
+                <input type="range" min="1" max="100" value="50" class="slider" id="input_range">
+                <p id="input_show"></p>
+                <p id="negotiating_quote"></p>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <article class="setup">
+            <section>
+                <p>Set Max</p>
+                <input type="number" id="input_max" value="100" min="1" size="5">
+            </section>
+            <section>
+                <p>Set Trys</p>
+                <input type="number" id="input_trys" value="100" min="1" size="5">
+            </section>
+            <section>
+                <p>Trys:</p>
+                <p id="output_trys"></p>
+            </section>
+        </article>
+    </footer>
+</body>
+
+<script>
+    var max = document.getElementById("input_max");
+    max.addEventListener("click", change);
+    var input = document.getElementById("input_range");
+    input.addEventListener("click", guess);
+    var trys = document.getElementById("input_trys");
+    trys.addEventListener("click", change)
+
+    var count = 0;
+    var findMe;
+    var reset = false;
+    newFindMe();
+
+    function newFindMe() {
+        findMe = Math.ceil(Math.random() * max.value);
+    }
+
+    function change() {
+        input.max = max.value;
+        input.value = max.value / 2;
+        newFindMe();
+        count = 0;
+    }
+
+    function guess() {
+        let outputTrys = document.getElementById("output_trys");
+        let output = document.getElementById("negotiating_quote");
+        let show = document.getElementById("input_show");
+        if (reset) {
+            reset = false;
+            newFindMe();
+            count = 0;
+        }
+
+        if (count >= trys.value) {
+            output.innerText = "YOU FAILED!"
+            reset = true;
+        } else {
+            outputTrys.innerText = ++count;
+
+            show.innerText = input.value;
+            if (input.value < findMe) {
+                output.innerText = "You feel like you can ask for more";
+
+            } else if (input.value > findMe) {
+                output.innerText = "You feel like you are asking for too much";
+            } else {
+                output.innerText = "YOU SUCCEED!";
+                newFindMe();
+            }
+        }
+    }
+</script>
+</html>
